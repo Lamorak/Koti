@@ -7,5 +7,9 @@ import retrofit2.http.Query
 interface CatApi {
 
     @GET("images/search")
-    suspend fun getAll(@Query("page") page: Int = 0, @Query("limit") limit: Int = 100): List<Cat>
+    suspend fun getAll(
+            @Query("page") page: Int = 0,
+            @Query("limit") limit: Int = 100,
+            @Query("size") size: String = "thumb"
+    ): List<Cat>
 }
