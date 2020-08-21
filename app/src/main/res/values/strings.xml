@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Koti</string>
+    <string-array name="tab_titles">
+        <item>All</item>
+        <item>Favorites</item>
+    </string-array>
+</resources>
