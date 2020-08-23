@@ -1,5 +1,8 @@
 package cz.lamorak.koti.service
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import cz.lamorak.koti.service.adapter.JsonDateAdapter
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -16,7 +19,7 @@ object ApiBuilder {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.thecatapi.com/v1/")
             .client(buildClient())
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(buildMoshi()))
             .build()
 
         return retrofit.create(CatApi::class.java)
@@ -37,5 +40,12 @@ object ApiBuilder {
             .addHeader("x-api-key", BuildConfig.API_KEY)
             .build()
         return chain.proceed(request)
+    }
+
+    private fun buildMoshi(): Moshi {
+        return Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .add(JsonDateAdapter())
+                .build()
     }
 }

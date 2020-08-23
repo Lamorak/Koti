@@ -22,6 +22,12 @@ class WorkCommander(private val workManager: WorkManager) {
         )
     }
 
+    fun synchronizeFavourites() {
+        workManager.enqueue(
+                createWorkRequest<FavouritesSyncWork>()
+        )
+    }
+
     private inline fun <reified T : ListenableWorker> createWorkRequest(inputData: Data = Data.EMPTY,
                                                                         initialDelay: Duration = Duration.ZERO,
                                                                         requiresNetwork: Boolean = true): OneTimeWorkRequest {

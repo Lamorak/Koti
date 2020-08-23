@@ -1,6 +1,7 @@
 package cz.lamorak.koti.service
 
 import cz.lamorak.koti.Cat
+import cz.lamorak.koti.model.Favourite
 import cz.lamorak.koti.model.FavouriteRequest
 import cz.lamorak.koti.model.FavouriteResponse
 import cz.lamorak.koti.model.RemoveResponse
@@ -15,6 +16,9 @@ interface CatApi {
             @Query("limit") limit: Int = 100,
             @Query("size") size: String = "thumb"
     ): List<Cat>
+
+    @GET("favourites")
+    suspend fun getFavourites(@Query("sub_id") userId: String): Response<List<Favourite>>
 
     @POST("favourites")
     suspend fun addFavourite(@Body request: FavouriteRequest): Response<FavouriteResponse>
