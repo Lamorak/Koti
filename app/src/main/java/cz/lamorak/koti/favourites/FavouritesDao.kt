@@ -33,7 +33,7 @@ abstract class FavouritesDao {
     @Insert
     abstract fun insertFavoutiteId(favoriteId: FavouriteId)
 
-    @Insert
+    @Insert(onConflict = IGNORE)
     abstract fun insertFavoutiteIds(favoriteIds: List<FavouriteId>)
 
     @Query("DELETE FROM FavouriteId WHERE id = :catId")
