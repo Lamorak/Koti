@@ -28,7 +28,7 @@ class FavouritesSyncWork(appContext: Context,
             response.body()?.run {
                 favouritesDao.insertFavoutites(mapFavouriteCats())
                 favouritesDao.insertFavoutiteIds(mapFavouriteIds())
-                favouritesDao.cleanupFavouriteCats(map { it.id })
+                favouritesDao.cleanupFavouriteCats(map { it.cat.id })
             }
 
             Result.success()
