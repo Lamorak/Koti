@@ -10,7 +10,7 @@ import cz.lamorak.koti.Cat
 import cz.lamorak.koti.R
 import cz.lamorak.koti.detail.DetailFragment
 import kotlinx.android.synthetic.main.fragment_allcat.*
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +28,9 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
         }
 
         lifecycleScope.launch {
-            viewModel.getAllCats().collectLatest { catAdapter.submitData(it) }
+            viewModel.getAllCats().collect {
+                catAdapter.submitData(it)
+            }
         }
 
         catAdapter.selectedCats().observe(this) {
