@@ -21,18 +21,23 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
     private val viewModel by viewModel<AllCatViewModel>()
     private val catAdapter by lazy { AllCatAdapter() }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+        
+        lifecycleScope.launch {
+            viewModel.getAllCats().collect {
+                catAdapter.submitData(it)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         allcat_recycler.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = catAdapter
-        }
-
-        lifecycleScope.launch {
-            viewModel.getAllCats().collect {
-                catAdapter.submitData(it)
-            }
         }
 
         catAdapter.selectedCats().observe(this) {
