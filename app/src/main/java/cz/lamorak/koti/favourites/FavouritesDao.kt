@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import cz.lamorak.koti.database.model.FavouriteId
 import cz.lamorak.koti.favourites.model.FavouriteCat
 
 @Dao
@@ -20,4 +21,13 @@ abstract class FavouritesDao {
 
     @Query("SELECT * FROM FavouriteCat ORDER BY favouritedAt DESC")
     abstract fun getFavouriteCats(): LiveData<List<FavouriteCat>>
+
+    @Insert
+    abstract fun insertFavoutiteId(favoriteId: FavouriteId)
+
+    @Query("DELETE FROM FavouriteId WHERE id = :catId")
+    abstract fun deleteFavouriteId(catId: String)
+
+    @Query("SELECT favouriteId FROM FavouriteId WHERE id = :catId")
+    abstract fun getFavouriteId(catId: String): String
 }
