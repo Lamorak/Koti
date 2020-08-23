@@ -2,6 +2,7 @@ package cz.lamorak.koti
 
 import android.app.Application
 import cz.lamorak.koti.allcat.allCatModule
+import cz.lamorak.koti.favourites.favouritesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +17,9 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 listOf(
-                    allCatModule
+                    appModule,
+                    allCatModule,
+                    favouritesModule
                 )
             )
         }
