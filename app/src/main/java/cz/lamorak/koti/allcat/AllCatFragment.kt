@@ -5,10 +5,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import cz.lamorak.koti.Cat
 import cz.lamorak.koti.R
 import cz.lamorak.koti.detail.DetailFragment
+import cz.lamorak.koti.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_allcat.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -35,6 +37,19 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
 
         catAdapter.selectedCats().observe(this) {
             showCatDetail(it)
+        }
+
+        catAdapter.addLoadStateListener {
+            allcar_refresh.isRefreshing = it.refresh is LoadState.Loading
+            error.setVisible(it.refresh is LoadState.Error)
+        }
+
+        allcar_refresh.setOnRefreshListener {
+            catAdapter.refresh()
+        }
+
+        error.setOnClickListener {
+            catAdapter.retry()
         }
     }
 
