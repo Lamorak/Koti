@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val allCatModule = module {
 
-    viewModel { AllCatViewModel(ApiBuilder.catApi()) }
+    viewModel { AllCatViewModel(get()) }
 }
