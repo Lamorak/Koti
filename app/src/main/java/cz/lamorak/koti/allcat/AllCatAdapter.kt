@@ -3,6 +3,7 @@ package cz.lamorak.koti.allcat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -14,9 +15,9 @@ import kotlinx.android.synthetic.main.item_allcat.view.*
 
 class AllCatAdapter : PagingDataAdapter<Cat, AllCatAdapter.CatViewHolder>(COMPARATOR) {
 
-    private val channel = MutableLiveData<String>()
+    private val channel = MutableLiveData<Cat>()
 
-    fun selectedCats() = channel
+    fun selectedCats(): LiveData<Cat> = channel
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
         val cat = getItem(position)!!
@@ -35,7 +36,7 @@ class AllCatAdapter : PagingDataAdapter<Cat, AllCatAdapter.CatViewHolder>(COMPAR
                 placeholder(R.drawable.ic_cat_silhouette)
             }
             itemView.setOnClickListener {
-                channel.value = cat.url
+                channel.value = cat
             }
         }
     }

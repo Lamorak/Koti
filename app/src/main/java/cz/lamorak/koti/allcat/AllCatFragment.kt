@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import cz.lamorak.koti.Cat
 import cz.lamorak.koti.R
 import cz.lamorak.koti.detail.DetailFragment
 import kotlinx.android.synthetic.main.fragment_allcat.*
@@ -35,9 +36,9 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
         }
     }
 
-    private fun showCatDetail(url: String) {
+    private fun showCatDetail(cat: Cat) {
         parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, DetailFragment(url))
+                .replace(R.id.fragment_container, DetailFragment(cat))
                 .addToBackStack("detail")
                 .commit()
     }
