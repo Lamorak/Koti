@@ -20,7 +20,8 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
         super.onViewCreated(view, savedInstanceState)
 
         favourite_cat_recycler.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            val columnCount = resources.getInteger(R.integer.column_count)
+            layoutManager = GridLayoutManager(requireContext(), columnCount)
             adapter = catAdapter
         }
 

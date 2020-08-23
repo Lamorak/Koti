@@ -24,7 +24,7 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        
+
         lifecycleScope.launch {
             viewModel.getAllCats().collect {
                 catAdapter.submitData(it)
@@ -36,7 +36,8 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
         super.onViewCreated(view, savedInstanceState)
 
         allcat_recycler.apply {
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            val columnCount = resources.getInteger(R.integer.column_count)
+            layoutManager = GridLayoutManager(requireContext(), columnCount)
             adapter = catAdapter
         }
 
