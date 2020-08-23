@@ -2,26 +2,20 @@ package cz.lamorak.koti.detail
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import coil.load
 import cz.lamorak.koti.Cat
 import cz.lamorak.koti.R
-import cz.lamorak.koti.favourites.FavouritesDao
 import cz.lamorak.koti.favourites.model.FavouriteCat
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.Instant
 
 class DetailFragment(cat: Cat) : Fragment(R.layout.fragment_detail) {
 
-    private val favouritesDao by inject<FavouritesDao>()
+    private val viewModel by viewModel<DetailViewModel>()
     private lateinit var catId: String
     private lateinit var imageUrl: String
 
@@ -45,24 +39,21 @@ class DetailFragment(cat: Cat) : Fragment(R.layout.fragment_detail) {
             parentFragmentManager.popBackStack()
         }
         favourite.setOnClickListener {
-            favourite.hide()
-            addCatToFavourites()
+            favourite.run {
+                isEnabled = false
+                if (isSelected) viewModel.removeFromFavourites(catId) else addCatToFavourites()
+            }
+        }
+
+        viewModel.isCatFavourite(catId).observe(this) {
+            favourite.isSelected = it
+            favourite.isEnabled = true
         }
     }
 
     private fun addCatToFavourites() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val cat = FavouriteCat(catId, imageUrl, Instant.now())
-            favouritesDao.insertFavoutite(cat)
-            showSuccessMessage()
-        }
-    }
-
-    fun showSuccessMessage() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            Toast.makeText(requireContext(), "Cat added to favourites!", Toast.LENGTH_SHORT)
-                    .show()
-        }
+        val cat = FavouriteCat(catId, imageUrl, Instant.now())
+        viewModel.addCatToFavourites(cat)
     }
 
     companion object {

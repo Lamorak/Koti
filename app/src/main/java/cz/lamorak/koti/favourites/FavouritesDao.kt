@@ -15,6 +15,9 @@ abstract class FavouritesDao {
     @Query("DELETE FROM FavouriteCat WHERE id = :catId")
     abstract fun deleteFavourite(catId: String)
 
+    @Query("SELECT COUNT() = 1 FROM FavouriteCat WHERE id = :catId")
+    abstract fun isCatFavourite(catId: String): LiveData<Boolean>
+
     @Query("SELECT * FROM FavouriteCat ORDER BY favouritedAt DESC")
     abstract fun getFavouriteCats(): LiveData<List<FavouriteCat>>
 }
