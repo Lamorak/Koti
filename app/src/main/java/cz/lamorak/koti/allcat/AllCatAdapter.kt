@@ -12,12 +12,17 @@ import coil.load
 import cz.lamorak.koti.Cat
 import cz.lamorak.koti.R
 import kotlinx.android.synthetic.main.item_allcat.view.*
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.runBlocking
 
 class AllCatAdapter : PagingDataAdapter<Cat, AllCatAdapter.CatViewHolder>(COMPARATOR) {
 
     private val channel = MutableLiveData<Cat>()
 
-    fun selectedCats(): LiveData<Cat> = channel
+    fun selectedCats(): LiveData<Cat> {
+        channel.value = null
+        return channel
+    }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
         val cat = getItem(position)!!

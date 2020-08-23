@@ -25,11 +25,16 @@ class FavoritesFragment: Fragment(R.layout.fragment_favorites) {
             adapter = catAdapter
         }
 
-        viewModel.getFavouriteCats().observe(this) {
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.getFavouriteCats().observe(viewLifecycleOwner) {
             catAdapter.submitList(it)
         }
 
-        catAdapter.selectedCats().observe(this) {
+        catAdapter.selectedCats().observe(viewLifecycleOwner) {
             showCatDetail(it)
         }
     }

@@ -12,6 +12,7 @@ import cz.lamorak.koti.R
 import cz.lamorak.koti.detail.DetailFragment
 import cz.lamorak.koti.extensions.setVisible
 import kotlinx.android.synthetic.main.fragment_allcat.*
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,21 +42,25 @@ class AllCatFragment: Fragment(R.layout.fragment_allcat) {
             adapter = catAdapter
         }
 
-        catAdapter.selectedCats().observe(this) {
-            showCatDetail(it)
-        }
-
-        catAdapter.addLoadStateListener {
-            allcar_refresh.isRefreshing = it.refresh is LoadState.Loading
-            error.setVisible(it.refresh is LoadState.Error)
-        }
-
         allcar_refresh.setOnRefreshListener {
             catAdapter.refresh()
         }
 
         error.setOnClickListener {
             catAdapter.retry()
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        catAdapter.selectedCats().observe(viewLifecycleOwner) {
+            if (it != null) showCatDetail(it)
+        }
+
+        catAdapter.addLoadStateListener {
+            allcar_refresh.isRefreshing = it.refresh is LoadState.Loading
+            error.setVisible(it.refresh is LoadState.Error)
         }
     }
 
