@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setSupportActionBar(toolbar)
+
         view_pager.apply {
             adapter = SectionsPagerAdapter(context, supportFragmentManager)
             tabs.setupWithViewPager(this)

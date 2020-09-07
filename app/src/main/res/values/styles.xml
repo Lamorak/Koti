@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance" />
+
+    <style name="TextAppearance.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/grandstander_bold</item>
+    </style>
+
+    <style name="TextAppearance.Tab" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/grandstander_medium</item>
+    </style>
+</resources>
