@@ -1,6 +1,5 @@
 package cz.lamorak.koti.favourites
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
@@ -8,6 +7,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import cz.lamorak.koti.database.model.FavouriteId
 import cz.lamorak.koti.favourites.model.FavouriteCat
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class FavouritesDao {
@@ -25,10 +25,10 @@ abstract class FavouritesDao {
     abstract fun cleanupFavouriteCats(currentIds: List<String>)
 
     @Query("SELECT COUNT() = 1 FROM FavouriteCat WHERE id = :catId")
-    abstract fun isCatFavourite(catId: String): LiveData<Boolean>
+    abstract fun isCatFavourite(catId: String): Flow<Boolean>
 
     @Query("SELECT * FROM FavouriteCat ORDER BY favouritedAt DESC")
-    abstract fun getFavouriteCats(): LiveData<List<FavouriteCat>>
+    abstract fun getFavouriteCats(): Flow<List<FavouriteCat>>
 
     @Insert
     abstract fun insertFavoutiteId(favoriteId: FavouriteId)

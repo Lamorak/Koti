@@ -45,7 +45,7 @@ class DetailFragment(cat: Cat) : Fragment(R.layout.fragment_detail) {
             }
         }
 
-        viewModel.isCatFavourite(catId).observe(this) {
+        viewModel.isCatFavourite(catId).observe(viewLifecycleOwner) {
             favourite.isSelected = it
             favourite.isEnabled = true
         }
