@@ -2,7 +2,12 @@ package cz.lamorak.koti.detail
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.os.bundleOf
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.navigationBars
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updateMargins
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import coil.load
@@ -48,6 +53,12 @@ class DetailFragment(cat: Cat) : Fragment(R.layout.fragment_detail) {
         viewModel.isCatFavourite(catId).observe(viewLifecycleOwner) {
             favourite.isSelected = it
             favourite.isEnabled = true
+        }
+
+        favourite.updateLayoutParams<MarginLayoutParams> {
+            val insets = WindowInsetsCompat.toWindowInsetsCompat(view.rootWindowInsets).getInsets(navigationBars())
+            val bottomInset = insets.bottom
+            updateMargins(bottom = bottomMargin + bottomInset)
         }
     }
 
