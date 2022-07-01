@@ -14,7 +14,8 @@ interface CatApi {
     suspend fun getAll(
             @Query("page") page: Int = 0,
             @Query("limit") limit: Int = 100,
-            @Query("size") size: String = "thumb"
+            @Query("size") size: String = "thumb",
+            @Query("order") order: String = "ASC",
     ): List<Cat>
 
     @GET("favourites")

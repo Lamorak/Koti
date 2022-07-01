@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.view.*
+import androidx.core.view.WindowInsetsCompat.CONSUMED
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -45,6 +49,19 @@ class AllCatFragment : Fragment(R.layout.fragment_allcat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ViewCompat.setOnApplyWindowInsetsListener(view) { _, windowInsets ->
+            val insets = windowInsets.getInsets(systemBars())
+            if (insets.bottom != 0 && insets.bottom != binding.allcatLoading.marginBottom) {
+                binding.allcatLoading.updateLayoutParams<MarginLayoutParams> {
+                    bottomMargin = insets.bottom
+                }
+                binding.allcatRecycler.updatePadding(
+                    bottom = insets.bottom
+                )
+            }
+            CONSUMED
+        }
+
         binding.allcatRecycler.apply {
             val columnCount = resources.getInteger(R.integer.column_count)
             layoutManager = GridLayoutManager(requireContext(), columnCount)
@@ -55,7 +72,7 @@ class AllCatFragment : Fragment(R.layout.fragment_allcat) {
             catAdapter.refresh()
         }
 
-        binding.error.setOnClickListener {
+        binding.allcatError.setOnClickListener {
             catAdapter.retry()
         }
 
@@ -64,8 +81,9 @@ class AllCatFragment : Fragment(R.layout.fragment_allcat) {
         }
 
         catAdapter.addLoadStateListener {
+            binding.allcatLoading.isVisible = it.append is LoadState.Loading
             binding.allcatRefresh.isRefreshing = it.refresh is LoadState.Loading
-            binding.error.setVisible(it.refresh is LoadState.Error)
+            binding.allcatError.setVisible(it.refresh is LoadState.Error)
         }
     }
 
