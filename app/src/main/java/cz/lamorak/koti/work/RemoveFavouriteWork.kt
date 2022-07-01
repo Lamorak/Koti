@@ -7,11 +7,14 @@ import cz.lamorak.koti.favourites.FavouritesDao
 import cz.lamorak.koti.service.CatApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class RemoveFavouriteWork(appContext: Context,
-                          workerParameters: WorkerParameters) : CoroutineWorker(appContext, workerParameters), KoinComponent {
+class RemoveFavouriteWork(
+    appContext: Context,
+    workerParameters: WorkerParameters
+) : CoroutineWorker(appContext, workerParameters),
+    KoinComponent {
 
     private val catApi by inject<CatApi>()
     private val favouritesDao by inject<FavouritesDao>()

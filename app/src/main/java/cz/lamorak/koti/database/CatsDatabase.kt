@@ -12,7 +12,8 @@ import cz.lamorak.koti.favourites.model.FavouriteCat
         FavouriteCat::class,
         FavouriteId::class
     ],
-    version = 2
+    version = 2,
+    exportSchema = false,
 )
 @TypeConverters(Converters::class)
 abstract class CatsDatabase : RoomDatabase() {

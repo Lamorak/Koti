@@ -8,14 +8,11 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 32
 
         buildConfigField("String", "API_KEY", apikeyProperties['KEY'])
     }
@@ -36,13 +33,13 @@ android {
 }
 
 dependencies {
-    def retrofit_version = "2.7.1"
+    def retrofit_version = "2.9.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.9.3"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 }

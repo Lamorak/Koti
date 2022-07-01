@@ -1,7 +1,6 @@
 package cz.lamorak.koti.allcat
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,15 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import cz.lamorak.koti.Cat
 import cz.lamorak.koti.R
-import kotlinx.android.synthetic.main.item_allcat.view.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.runBlocking
+import cz.lamorak.koti.databinding.ItemAllcatBinding
 
 class AllCatAdapter : PagingDataAdapter<Cat, AllCatAdapter.CatViewHolder>(COMPARATOR) {
 
-    private val channel = MutableLiveData<Cat>()
+    private val channel = MutableLiveData<Cat?>()
 
-    fun selectedCats(): LiveData<Cat> {
+    fun selectedCats(): LiveData<Cat?> {
         channel.value = null
         return channel
     }
@@ -30,13 +27,14 @@ class AllCatAdapter : PagingDataAdapter<Cat, AllCatAdapter.CatViewHolder>(COMPAR
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_allcat, parent, false)
-        return CatViewHolder(view)
+        val binding = ItemAllcatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CatViewHolder(binding)
     }
 
-    inner class CatViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class CatViewHolder(private val binding: ItemAllcatBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(cat: Cat) {
-            itemView.cat_thumbnail.load(cat.url) {
+            binding.catThumbnail.load(cat.url) {
                 crossfade(true)
                 placeholder(R.drawable.ic_cat_silhouette)
             }

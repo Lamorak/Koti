@@ -11,12 +11,15 @@ import cz.lamorak.koti.model.Favourite
 import cz.lamorak.koti.service.CatApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 
-class FavouritesSyncWork(appContext: Context,
-                         workerParameters: WorkerParameters) : CoroutineWorker(appContext, workerParameters), KoinComponent {
+class FavouritesSyncWork(
+    appContext: Context,
+    workerParameters: WorkerParameters
+) : CoroutineWorker(appContext, workerParameters),
+    KoinComponent {
 
     private val catApi by inject<CatApi>()
     private val favouritesDao by inject<FavouritesDao>()

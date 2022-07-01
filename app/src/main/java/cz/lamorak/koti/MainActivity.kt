@@ -3,8 +3,8 @@ package cz.lamorak.koti
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cz.lamorak.koti.adapter.SectionsPagerAdapter
+import cz.lamorak.koti.databinding.ActivityMainBinding
 import cz.lamorak.koti.work.WorkCommander
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -13,12 +13,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
-        view_pager.apply {
+        binding.viewPager.apply {
             adapter = SectionsPagerAdapter(context, supportFragmentManager)
-            tabs.setupWithViewPager(this)
+            binding.tabs.setupWithViewPager(this)
         }
 
         workCommander.synchronizeFavourites()

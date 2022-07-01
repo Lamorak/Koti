@@ -1,11 +1,7 @@
 package cz.lamorak.koti.allcat
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
+import androidx.paging.*
 import cz.lamorak.koti.Cat
 import cz.lamorak.koti.service.CatApi
 import kotlinx.coroutines.flow.Flow
@@ -14,9 +10,6 @@ import java.net.UnknownHostException
 
 class AllCatViewModel(private val catApi: CatApi) : ViewModel() {
 
-    init {
-        Log.w("viewmodel", "recreated")
-    }
 
     private val pager = Pager(PagingConfig(enablePlaceholders = false, pageSize = 100), initialKey = 0) {
         object : PagingSource<Int, Cat>() {
@@ -32,6 +25,10 @@ class AllCatViewModel(private val catApi: CatApi) : ViewModel() {
                 } catch (e: UnknownHostException) {
                     LoadResult.Error(e)
                 }
+            }
+
+            override fun getRefreshKey(state: PagingState<Int, Cat>): Int? {
+                return state.anchorPosition
             }
         }
     }

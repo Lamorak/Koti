@@ -4,21 +4,24 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import cz.lamorak.koti.model.FavouriteRequest
 import cz.lamorak.koti.USER_ID
 import cz.lamorak.koti.database.model.FavouriteId
 import cz.lamorak.koti.extensions.toInstant
 import cz.lamorak.koti.favourites.FavouritesDao
 import cz.lamorak.koti.favourites.model.FavouriteCat
+import cz.lamorak.koti.model.FavouriteRequest
 import cz.lamorak.koti.service.CatApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 
-class AddFavouriteWork(appContext: Context,
-                       workerParameters: WorkerParameters): CoroutineWorker(appContext, workerParameters), KoinComponent {
+class AddFavouriteWork(
+    appContext: Context,
+    workerParameters: WorkerParameters
+) : CoroutineWorker(appContext, workerParameters),
+    KoinComponent {
 
     private val catApi by inject<CatApi>()
     private val favouritesDao by inject<FavouritesDao>()
