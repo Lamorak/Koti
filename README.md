@@ -17,3 +17,8 @@ Sample Android application in Kotlin using lastest jetpack libraries, retrofit a
 * [Work Manager](https://developer.android.com/topic/libraries/architecture/workmanager) for backend synchronization
 * [Koin](https://start.insert-koin.io/#/introduction) for dependency injection
 * Material design libraries for UI
+
+## Build instruction
+You need an api key for [the cat api](https://thecatapi.com/signup), create file `apikey.properties` in the project root and paste the key in the following format:
+
+    KEY="<api-key>"
